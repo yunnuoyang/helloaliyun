@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	</head>
+	<body>
+		
+		<div id="app-5">
+		  <p>{{ message }}</p>
+		  <button v-on:click="getData()">get</button>
+		  <p>{{ post }}</p>
+		  <button v-on:click="getPost()">post</button>
+		  <p>{{put}}</p>
+		  <button v-on:click="doPut()">put</button>
+		  <p>{{del}}</p>
+		  <button v-on:click="doDelete()">del</button>
+		</div>
+		 
+		
+		<script>
+			var app5 = new Vue({
+			  el: '#app-5',
+			  data: {
+			    message: '发送get请求',
+				post:"发送post请求",
+				put:"put请求",
+				del:"delete请求"
+			  },
+			  methods: {
+			    reverseMessage: function () {
+			      this.message = this.message.split('').reverse().join('')
+			    }
+				, getData(){
+		                const _this = this
+		                axios.get('http://localhost:8081/hello',{params:{id:1,username:'张三'}}).then(function (resp) {
+		                    console.log(resp.data)
+		                })
+						// axios.put(`http://localhost:8081/hello`, JSON.stringify({id:1,username:'张三'}),{
+						//         headers: {
+						//             'Content-Type': 'application/json;charset=UTF-8'
+						//         }
+						//     });
+		            }
+				,getPost(){
+					 var params = new URLSearchParams()
+					                params.append('id', '1')
+					                params.append('username', '张三')
+					                axios.post('http://localhost:8081/post',params).then(function (resp) {
+					                    console.log(resp.data)
+					                })
+				}
+				,doPut(){
+					var params = new URLSearchParams()
+					               params.append('id', '1')
+					               params.append('username', '张三')
+					axios.put('http://localhost:8081/put',params).then(function(resp){
+						console.log(resp.data)
+					})	
+				}
+				,doDelete(){
+					var params = new URLSearchParams()
+					               params.append('id', '1')
+					               params.append('username', '张三')
+					axios.delete('http://localhost:8081/delete',params).then(function(resp){
+						console.log(resp.data)
+					})	
+				}
+			  }
+			})
+		  
+		</script>
+		
+	</body>
+</html>
